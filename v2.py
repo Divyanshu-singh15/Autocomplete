@@ -44,7 +44,7 @@ def lexicographical_search_bfs_api_common_skip_none_save():
     # Maximum allowed depth (word length).
     max_depth = 4
 
-    # Dictionary to store computed API info for each node (computed common prefix plus one extra letter or "none").
+    # Dictionary to store computed API info for each node (computed common prefix plus one extra letter or "NONE").
     api_info = {}
     # Dictionary to store the names (API response "results") for each node.
     names_store = {}
@@ -61,7 +61,14 @@ def lexicographical_search_bfs_api_common_skip_none_save():
 
         # Process non-empty nodes by making an API request.
         if current_string:
-            response = requests.get(base_url, params={"query": current_string})
+            while (True):
+                response = requests.get(base_url, params={"query": current_string})
+                if response.status_code != 200:
+                    print("Error in response. Retrying...", response.status_code, response.text)
+                    time.sleep(2)
+                    continue
+                else:
+                    break
             total_requests += 1
             data = response.json()
             results = data.get("results", [])
@@ -79,9 +86,9 @@ def lexicographical_search_bfs_api_common_skip_none_save():
             if total_requests % 50 == 0:
                 save_names_to_file(names_store)
 
-            # If the response contains fewer than 12 words, store "none" and skip exploring its children.
+            # If the response contains fewer than 12 words, store "NONE" and skip exploring its children.
             if len(results) < 12:
-                api_info[current_string] = "none"
+                api_info[current_string] = "NONE"
                 # Wait before next request.
                 time.sleep(1.25)
                 continue
@@ -106,8 +113,8 @@ def lexicographical_search_bfs_api_common_skip_none_save():
         # Retrieve the parent's stored computed value.
         parent_stored = api_info.get(current_string, "")
 
-        # If parent's stored value is "none", skip generating children.
-        if parent_stored == "none":
+        # If parent's stored value is "NONE", skip generating children.
+        if parent_stored == "NONE":
             continue
 
         # Generate child nodes by appending each character.
