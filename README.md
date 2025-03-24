@@ -10,3 +10,4 @@ The file **V2** contains the final approach for computation. A **BFS (Breadth-Fi
 - If the response length is **less than** the maximum possible response length, the BFS does not explore its children when reaching this node.
 
 Note - File V2 is the final solution. It represents the V2 API search but is modified to do the v1 search. The rest files were used for different approaches, tests or experiments.
+     - namesv1.json and namesv2.json contain the extracted word.
