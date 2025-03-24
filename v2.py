@@ -20,7 +20,7 @@ def common_prefix_plus_one(word1, word2):
     return cp
 
 
-def save_names_to_file(names_store, filename="names.json"):
+def save_names_to_file(names_store, filename="namesv1.json"):
     """
     Save the collected names to a JSON file under key "namev2".
     """

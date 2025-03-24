@@ -16,8 +16,8 @@ MAX_REQUESTS_PER_MINUTE = 49  # Set slightly below the actual limit (100) for sa
 request_timestamps = []
 
 # Load existing data if resuming
-if os.path.exists("names.json"):
-    with open("names.json", "r") as f:
+if os.path.exists("namesv1.json"):
+    with open("namesv1.json", "r") as f:
         all_names.update(json.load(f))
     print(f"Resumed with {len(all_names)} names.")
 if os.path.exists("excluded.json"):
@@ -172,7 +172,7 @@ def explore_prefix(prefix, max_depth=4):
 
     # Save progress every 50 requests
     if total_request_count % 50 == 0:
-        with open("names.json", "w") as f:
+        with open("namesv1.json", "w") as f:
             json.dump(list(all_names), f)
         with open("excluded.json", "w") as f:
             json.dump(list(excluded_prefixes), f)
@@ -184,7 +184,7 @@ for letter in alphabet:
     explore_prefix(letter, max_depth=4)
 
 # Final save and summary
-with open("names.json", "w") as f:
+with open("namesv1.json", "w") as f:
     json.dump(list(all_names), f)
 with open("excluded.json", "w") as f:
     json.dump(list(excluded_prefixes), f)
@@ -193,4 +193,4 @@ print(f"\nFinal Results:")
 print(f"Total unique names: {len(all_names)}")
 print(f"Total requests made: {total_request_count}")
 print(f"Excluded prefixes: {len(excluded_prefixes)}")
-print(f"Data saved to 'names.json' and 'excluded.json'")
+print(f"Data saved to 'namesv1.json' and 'excluded.json'")
